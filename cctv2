@@ -1,0 +1,68 @@
+package Cctv;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class cctv2 {
+
+   public static void main(String[] args) throws ClassNotFoundException, IOException { //예외처리
+      // TODO Auto-generated method stub
+      try {
+         Class.forName("com.mysql.cj.jdbc.Driver"); 
+         //JDBC 드라이버 클래스 로드, 데이터베이스와 연결을 설정하기 위해 필요
+         Connection conn_k39 = DriverManager.getConnection("jdbc:mysql://192.168.23.108:33060/kopo39", "root", "kopo39");
+         //getConnetion 메서드를 호출하여 MySQL 데이터베이스와 연결, 매개변수 순서(JDBC URL, DB NAME, DB USER, PASSWD)
+         Statement stmt_k39 = conn_k39.createStatement();
+         //SQL문을 실행하기 위한 statement 객체 생성
+      
+         File f_k39 = new File("C:\\Users\\사용자\\Desktop\\김선재\\데이터베이스\\전국cctv표준데이터2.txt");
+         //경로에 위치한 파일을 불러오기위해 f 객체 생성
+         BufferedReader br_k39 = new BufferedReader(new FileReader(f_k39));
+         // 파일을 읽기 위한 BufferedReader 객체 생성
+
+         String readtxt_k39; //파일에서 읽어들인 데이터를 저장할 문자열 변수 readtxt_k39 생성
+
+         if ((readtxt_k39 = br_k39.readLine()) == null) { //파일에서 데이터 한 줄씩 읽어들이는데 만약 데이터가 null이면
+            System.out.printf("빈 파일입니다\n"); //출력
+            return;
+         }
+         String[] field_name_k39 = readtxt_k39.split("\t"); //원래 ,로 분리해야하지만 데이터에 ,가 끼어있기 때문에 
+                                                //대신 tab으로 먼저 자료 정리 후 다시 ,로 바꾸기
+                                                //탭으로 구분된 데이터를 배열로 변수에 저장
+
+         int LineCnt_k39 = 0; //카운트 변수 초기화
+         while ((readtxt_k39 = br_k39.readLine()) != null) { //파일에서 데이터 한 줄씩 읽음(null이 될 때까지 반복)
+            String[] field_k39 = readtxt_k39.split("\t"); //탭으로 구분된 데이터를 변수에 저장
+            String QueryTxt_k39; //문자열 변수 선언
+            
+            
+            QueryTxt_k39 = String.format("insert into cctv ("
+                     + "numbering, manage_office, place_addr_road, place_addr_land, purpose_inst,"
+                        + "num_camera, pixels_camera, shoot_area_info, storage_day, inst_date,"
+                        + "manage_office_phone, latitude, longitude, write_date)"
+                        + "values ("
+                        + "'%s','%s','%s','%s','%s',"
+                        + "'%s','%s','%s','%s','%s',"
+                        +"'%s','%s','%s','%s');",
+                        field_k39[0],field_k39[1],field_k39[2],field_k39[3],field_k39[4],
+                        field_k39[5],field_k39[6],field_k39[7],field_k39[8],field_k39[9],
+                        field_k39[10],field_k39[11],field_k39[12],field_k39[13]);  //데이터베이스에 삽입할 SQL 쿼리 작성
+            stmt_k39.execute(QueryTxt_k39); //stmt 객체 사용하여 SQL 쿼리 실행 -> 데이터베이스에 데이터 삽입
+            //System.out.printf("%d번째 항목 Insert OK [%s]\n", LineCnt_k39, QueryTxt_k39); //자바 출력 화면
+                                                            //데이터베이스 목록과 비교 필요
+            
+            LineCnt_k39++; //1씩 증가하면서 반복
+         }
+
+      } catch (SQLException e) { //throw SQLException 예외처리 대신 try-catch 사용해서 에러 위치 정확하게 찾아서 해결하기
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+   }
+}
