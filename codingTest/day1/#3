@@ -1,0 +1,51 @@
+package CT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class day1 {
+   public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      
+      String str1 = scanner.nextLine();
+      String str2 = scanner.nextLine();
+   
+      char[] ch1 = str1.toCharArray();
+      char[] ch2 = str2.toCharArray();
+      
+      int[] count1 = new int[26];
+      int[] count2 = new int[26];
+      
+      for(int i = 0; i < ch1.length; i++) {
+         char c1 = ch1[i];
+         if(c1 >= 'a' && c1 <= 'z') {
+            int index = c1 - 'a';
+            count1[index]++;
+         }   
+      }
+      
+      for(int i = 0; i < ch2.length; i++) {
+         char c2 = ch2[i];
+         if(c2 >= 'a' && c2 <= 'z') {
+            int index = c2 - 'a';
+            count2[index]++;
+         }
+      }
+      
+      boolean isPossible = true;
+      for(int i = 0; i < ch1.length; i++) {
+         if(count1[i] != count2[i]) {
+            isPossible = false;
+            break;
+         }
+      }
+      
+      if(isPossible) {
+         System.out.println("YES");
+      } else {
+         System.out.println("NO");
+      } 
+   }
+}
