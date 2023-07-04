@@ -1,0 +1,27 @@
+package CT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class day1 {
+   public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+     
+     int totalCnt = scanner.nextInt();
+     
+     int[] arr = new int[totalCnt];
+      
+     for(int i = 0; i < arr.length; i++) {
+         arr[i] = scanner.nextInt();
+     }
+      
+     int cnt = scanner.nextInt();
+      
+     Arrays.sort(arr);
+     int result = arr[totalCnt-cnt];
+      
+     System.out.println(result);
+   }
+}
