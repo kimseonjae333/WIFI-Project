@@ -1,0 +1,33 @@
+public static void main(String[] args) {
+		// m/s 미터/초
+		// km/h 킬로미터/시간 1 m/s -> 3.6 km/h
+		// m/ms 미터/밀리초 1 m/s -> m/ms * 1000
+		
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<Double> list = new ArrayList<Double>();
+		
+		double ms = scanner.nextDouble();
+		double kmh = scanner.nextDouble();
+		double mms = scanner.nextDouble();
+		
+		double x = kmh/3.6;
+		double y = mms * 1000;
+		
+		list.add(ms);
+		list.add(x);
+		list.add(y);
+		
+		Collections.sort(list);
+		double max = list.get(2);
+		
+		double[] arr = {ms, x, y};
+		int maxIndex = 0;
+		for(int i = 0; i < arr.length; i++) {
+			if(arr[i] == max) {
+				maxIndex = i+1;
+			}
+		}
+		
+		System.out.println(maxIndex);
+			
+	}
